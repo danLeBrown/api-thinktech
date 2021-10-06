@@ -11,6 +11,15 @@ use App\Http\Resources\DataResource;
 class ArticleController extends Controller
 {
     use ResourceTrait;
+
+    public function __construct()
+    {
+        $this->middleware('verify.author')->only([
+            'store',
+            'update',
+            'delete'
+        ]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -51,7 +60,6 @@ class ArticleController extends Controller
 
         krsort($trending);
         return $this->createResource($trending);
-
     }
     /**
      * Store a newly created resource in storage.

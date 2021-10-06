@@ -14,13 +14,14 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-// Article route
-Route::resource('articles', ArticleController::class);
-Route::prefix('articles')->group(function () {
-   Route::get('trending', [ArticleController::class, 'trending']); 
+Route::prefix('v1')->group(function () {
+    Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+        return $request->user();
+    });
+    
+    // Article route
+    Route::resource('articles', ArticleController::class);
+    Route::prefix('articles')->group(function () {
+       Route::get('/trending', [ArticleController::class, 'trending']); 
+    });
 });
