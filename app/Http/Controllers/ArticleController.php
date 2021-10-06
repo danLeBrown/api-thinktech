@@ -39,27 +39,28 @@ class ArticleController extends Controller
 
     public function trending()
     {
-        $trendingArticles = ArticleView::with('article')->get();
-        $trending = [];
-        $checker = [];
-        foreach ($trendingArticles as $key => $trendingArticle) {
-            if (!array_key_exists($trendingArticle->article_id, $checker)) {
-                $checker[$trendingArticle->article_id]['viewCount'] = count(ArticleView::where('article_id', $trendingArticle->article_id)->get());
-                if($trendingArticle->article != null){
-                    $trending[$checker[$trendingArticle->article_id]['viewCount']] = $trendingArticle->article;
-                    $trending[$checker[$trendingArticle->article_id]['viewCount']]->view_count = $checker[$trendingArticle->article_id]['viewCount'];
-                }
-            }
-        }
-        foreach ($trending as $key => $trend) {
-            $trend->createArticleData($trend);
-            if ($trend->view_count < 5) {
-                unset($trending[$key]);
-            }
-        }
+        return true;
+        // $trendingArticles = ArticleView::with('article')->get();
+        // $trending = [];
+        // $checker = [];
+        // foreach ($trendingArticles as $key => $trendingArticle) {
+        //     if (!array_key_exists($trendingArticle->article_id, $checker)) {
+        //         $checker[$trendingArticle->article_id]['viewCount'] = count(ArticleView::where('article_id', $trendingArticle->article_id)->get());
+        //         if($trendingArticle->article != null){
+        //             $trending[$checker[$trendingArticle->article_id]['viewCount']] = $trendingArticle->article;
+        //             $trending[$checker[$trendingArticle->article_id]['viewCount']]->view_count = $checker[$trendingArticle->article_id]['viewCount'];
+        //         }
+        //     }
+        // }
+        // foreach ($trending as $key => $trend) {
+        //     $trend->createArticleData($trend);
+        //     if ($trend->view_count < 5) {
+        //         unset($trending[$key]);
+        //     }
+        // }
 
-        krsort($trending);
-        return $this->createResource($trending);
+        // krsort($trending);
+        // return $this->createResource($trending);
     }
     /**
      * Store a newly created resource in storage.

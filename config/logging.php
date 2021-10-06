@@ -58,7 +58,7 @@ return [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
             'username' => 'Thinktech Log Bot',
-            'emoji' => ':robot:',
+            'emoji' => ':ghost:',
             'level' => env('LOG_LEVEL', 'critical'),
         ],
 

@@ -20,8 +20,8 @@ Route::prefix('v1')->group(function () {
     });
     
     // Article route
-    Route::resource('articles', ArticleController::class);
     Route::prefix('articles')->group(function () {
-       Route::get('/trending', [ArticleController::class, 'trending']); 
+        Route::get('trending', 'App\Http\Controllers\ArticleController@trending'); 
     });
+    Route::resource('articles', ArticleController::class);
 });
