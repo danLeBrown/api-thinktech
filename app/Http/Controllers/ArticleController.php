@@ -39,28 +39,50 @@ class ArticleController extends Controller
 
     public function trending()
     {
-        return true;
-        // $trendingArticles = ArticleView::with('article')->get();
-        // $trending = [];
-        // $checker = [];
-        // foreach ($trendingArticles as $key => $trendingArticle) {
-        //     if (!array_key_exists($trendingArticle->article_id, $checker)) {
-        //         $checker[$trendingArticle->article_id]['viewCount'] = count(ArticleView::where('article_id', $trendingArticle->article_id)->get());
-        //         if($trendingArticle->article != null){
-        //             $trending[$checker[$trendingArticle->article_id]['viewCount']] = $trendingArticle->article;
-        //             $trending[$checker[$trendingArticle->article_id]['viewCount']]->view_count = $checker[$trendingArticle->article_id]['viewCount'];
-        //         }
-        //     }
-        // }
-        // foreach ($trending as $key => $trend) {
-        //     $trend->createArticleData($trend);
-        //     if ($trend->view_count < 5) {
-        //         unset($trending[$key]);
-        //     }
-        // }
+        $trendingArticles = ArticleView::with('article')->get();
+        $trending = [];
+        $checker = [];
+        foreach ($trendingArticles as $key => $trendingArticle) {
+            if (!array_key_exists($trendingArticle->article_id, $checker)) {
+                $checker[$trendingArticle->article_id]['viewCount'] = count(ArticleView::where('article_id', $trendingArticle->article_id)->get());
+                if($trendingArticle->article != null){
+                    $trending[$checker[$trendingArticle->article_id]['viewCount']] = $trendingArticle->article;
+                    $trending[$checker[$trendingArticle->article_id]['viewCount']]->view_count = $checker[$trendingArticle->article_id]['viewCount'];
+                }
+            }
+        }
+        foreach ($trending as $key => $trend) {
+            $trend->createArticleData($trend);
+            if ($trend->view_count < 5) {
+                unset($trending[$key]);
+            }
+        }
+        krsort($trending);
+        return $this->createResource($trending);
+    }
 
-        // krsort($trending);
-        // return $this->createResource($trending);
+    public function author($user_id)
+    {
+        $articles_arr = [];
+        Article::where('user_id', $user_id)->orderBy('id', 'desc')->with('author')->chunk(50, function ($articles) use (&$articles_arr){
+            foreach ($articles as $key => $article) {
+                $article->createArticleData($article);
+            }
+            $articles_arr = $articles;
+        });
+        return $this->createResource($articles_arr);
+    }
+
+    public function tag($tag)
+    {
+        $articles_arr = [];
+        Article::where('tag', 'LIKE', "%{$tag}%")->orderBy('id', 'desc')->with('author')->chunk(50, function ($articles) use (&$articles_arr){
+            foreach ($articles as $key => $article) {
+                $article->createArticleData($article);
+            }
+            $articles_arr = $articles;
+        });
+        return $this->createResource($articles_arr);
     }
     /**
      * Store a newly created resource in storage.
@@ -90,7 +112,13 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        //
+        $articleTitle = str_replace('-', ' ', $id);
+        $article = Article::where(['title' => $articleTitle])->get()[0];
+        $article->createArticleData($article);        
+        $response = [
+            'article' => $article,
+        ];
+        return new DataResource($response);
     }
 
     /**

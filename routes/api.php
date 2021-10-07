@@ -21,7 +21,9 @@ Route::prefix('v1')->group(function () {
     
     // Article route
     Route::prefix('articles')->group(function () {
-        Route::get('trending', 'App\Http\Controllers\ArticleController@trending'); 
+        Route::get('trending', [App\Http\Controllers\ArticleController::class, 'trending']);
+        Route::get('author/{id}', [App\Http\Controllers\ArticleController::class, 'author']);       
     });
     Route::resource('articles', ArticleController::class);
+
 });
