@@ -134,11 +134,11 @@ class ArticleController extends Controller
             $newheight = 400 / $imageratio;
         };
         Image::make(storage_path('app/public/articles/' . $fileNameToStore))->resize($newwidth, $newheight)->save(storage_path('app/public/articles/' . $fileNameToStore));
-        return (new UploadApi())->upload(storage_path('app/public/articles/' . $fileNameToStore));
+        $upload = (new UploadApi())->upload(storage_path('app/public/articles/' . $fileNameToStore));
         return json_encode([
             "success"=> 1,
             "file"=> [
-                "url"=> "https://api-thinktech.herokuapp.com/storage/articles/".$fileNameToStore
+                "url"=> $upload['secure_url']
             ]
         ]);
     }
