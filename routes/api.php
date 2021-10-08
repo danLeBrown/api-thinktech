@@ -23,16 +23,7 @@ Route::prefix('v1')->group(function () {
     });
 
     Auth::routes();
-    // Route::get('/login', function ($id) {
-    //     return response(json_encode(
-    //         [
-    //             "error"=> [
-    //                 "route"=> ['invalid route']
-    //             ]
-    //         ]
-    //     ));
-    // })->name('login');
-    
+
     // Article route
     Route::prefix('articles')->group(function () {
         Route::get('trending', [App\Http\Controllers\ArticleController::class, 'trending']);
