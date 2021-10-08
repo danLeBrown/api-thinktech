@@ -117,7 +117,7 @@ class ArticleController extends Controller
         return json_encode([
             "success"=> 1,
             "file"=> [
-                "url"=> url("/storage/articles/".$fileNameToStore)
+                "url"=> "https://api-thinktech.herokuapp.com/storage/articles/".$fileNameToStore
             ]
         ]);
     }
