@@ -48,5 +48,5 @@ return [
         'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
     ],
 
-    'prefix'=> 'v1'
+    'prefix'=> 'api/v1'
 ];
