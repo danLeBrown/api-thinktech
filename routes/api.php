@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\AuthorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,4 +28,10 @@ Route::prefix('v1')->group(function () {
     });
     Route::resource('articles', ArticleController::class);
 
+    Route::middleware(['verify.author'])->prefix('author')->group(function () {
+        Route::get('analytics-stats', [AuthorController::class, 'analyticsStats']);
+    });
+    Route::prefix('author')->group(function () {
+        // Route::get('analytics-stats', [AdminController::class, 'analyticsS'] 'AdminController@analyticsStats');
+    });
 });
