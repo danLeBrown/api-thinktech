@@ -2,8 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VerifyAuthor
 {
@@ -16,13 +18,13 @@ class VerifyAuthor
      */
     public function handle(Request $request, Closure $next)
     {
-        if($request->user()->role()->role != 'author'){
-            return json_encode([
-                "error"=> [
-                    "role"=> ["User is not an author!"]
-                ]
-            ], 401);
-        }
-        return $next($request);
+        if(User::find(auth("sanctum")->user()->id)->role()->role == 'author'){
+            return $next($request);
+        }            
+        return response(json_encode([
+            "error"=> [
+                "role"=> ["User is not an author!"]
+            ]
+        ], 401));
     }
 }

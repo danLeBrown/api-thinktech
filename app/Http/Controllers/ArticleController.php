@@ -7,6 +7,7 @@ use App\Models\ArticleView;
 use Illuminate\Http\Request;
 use App\Traits\ResourceTrait;
 use App\Http\Resources\DataResource;
+use Intervention\Image\Facades\Image;
 
 class ArticleController extends Controller
 {
@@ -20,6 +21,7 @@ class ArticleController extends Controller
             'delete'
         ]);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -84,11 +86,47 @@ class ArticleController extends Controller
         });
         return $this->createResource($articles_arr);
     }
+
+    public function uploadImage(Request $request){
+        $request->validate([
+            "image"=> "required|image"
+        ]);
+        // Get File name and extension
+        // $FileNameWithExt = $request->file('image')->getClientOriginalName();
+        // Get File name
+        // $fileName = pathinfo($FileNameWithExt, PATHINFO_FILENAME);
+        // Get File ext
+        $fileExt = $request->file('image')->getClientOriginalExtension();
+        // File name to store
+        $fileNameToStore = time() . '.' . $fileExt;
+        // Store Image
+        $request->file('image')->storeAs('public/articles', $fileNameToStore);
+        list($width, $height) = getimagesize(storage_path('app/public/articles/' . $fileNameToStore));
+        //obtain ratio
+        $imageratio = $width / $height;
+
+        if ($imageratio >= 1) {
+            $newwidth = 600;
+            $newheight = 600 / $imageratio;
+        } else {
+            $newwidth = 400;
+            $newheight = 400 / $imageratio;
+        };
+        Image::make(storage_path('app/public/articles/' . $fileNameToStore))->resize($newwidth, $newheight)->save(storage_path('app/public/articles/' . $fileNameToStore));
+
+        return json_encode([
+            "success"=> 1,
+            "file"=> [
+                "url"=> url("/storage/articles/".$fileNameToStore)
+            ]
+        ]);
+    }
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @re
+     * turn \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
