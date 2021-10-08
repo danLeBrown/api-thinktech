@@ -87,25 +87,6 @@ class ArticleController extends Controller
         });
         return $this->createResource($articles_arr);
     }
-
-    public function uploadImg(Request $request){
-        $request->validate([
-            "image"=> "required|image"
-        ]);
-        $fileExt = $request->file('image')->getClientOriginalExtension();
-        $fileNameToStore = time() . '.' . $fileExt;
-        // $cloudinary = new Cloudinary(
-        //     [
-        //         'cloud' => [
-        //             'cloud_name' => env('CLOUDINARY_NAME', 'danlebrown'),
-        //             'api_key'    => env('CLOUDINARY_API_KEY', '421795151414194'),
-        //             'api_secret' => env('CLOUDINARY_API_SECRET', 'lzcEjCCS4ee5Bmhm4A0FRyB6eWg'),
-        //         ],
-        //     ]
-        // );
-        return (new UploadApi())->upload($request->image);
-        // return $cloudinary->uploadApi->upload($fileNameToStore);
-    }
     
     public function uploadImage(Request $request){
         $request->validate([
