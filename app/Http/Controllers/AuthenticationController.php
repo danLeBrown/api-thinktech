@@ -49,7 +49,7 @@ class AuthenticationController extends Controller
         if (Auth::attempt($credentials)) {
             $user = User::find(Auth::user()->id);
             $token = $user->createToken('admin-thinktech');
-            return $request->wantsJson() ? new DataResource(["token"=> $token->plainTextToken, 'message'=> "Welcome to Think Tech, ".$user->name]) : \redirect('https://thinktech.com');
+            return $request->wantsJson() ? new DataResource(["token"=> $token->plainTextToken, 'message'=> "Welcome back to Think Tech, ".$user->name]) : \redirect('https://thinktech.com');
         }
         return response(json_encode([
             "errors"=> [
