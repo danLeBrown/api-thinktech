@@ -10,7 +10,7 @@ use App\Http\Resources\DataResource;
 
 class AuthorController extends Controller
 {
-    public function analyticsStat(Request $request)
+    public function analyticStats(Request $request)
     {
         $views_count = 0;
         $visits_count = 0;

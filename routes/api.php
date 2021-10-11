@@ -33,7 +33,7 @@ Route::prefix('v1')->group(function () {
     Route::resource('articles', ArticleController::class);
 
     Route::middleware(['auth:sanctum', 'verify.author'])->prefix('author')->group(function () {
-        Route::get('analytics-stats', [AuthorController::class, 'analyticsStats']);
+        Route::get('analytics-stats', [AuthorController::class, 'analyticStats']);
     });
 
     Route::prefix('admin')->group(function () {
