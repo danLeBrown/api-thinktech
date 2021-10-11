@@ -18,11 +18,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::prefix('v1')->group(function () {
-    Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-        return $request->user();
-    });
+    Route::middleware('auth:sanctum')->get('/user', [App\Http\Controllers\AuthenticationController::class, 'getUser']);
 
     Auth::routes();
+    Route::post('/register', [App\Http\Controllers\AuthenticationController::class, 'register']);
 
     // Article route
     Route::prefix('articles')->group(function () {

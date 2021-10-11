@@ -18,13 +18,14 @@ class VerifyAuthor
      */
     public function handle(Request $request, Closure $next)
     {
-        if(User::find(auth("sanctum")->user()->id)->role()->role == 'author'){
+        $user =  User::where('id', $request->user()->id)->with('role')->first();
+        if($user->role == 'author'){
             return $next($request);
         }            
         return response(json_encode([
-            "error"=> [
+            "errors"=> [
                 "role"=> ["User is not an author!"]
             ]
-        ], 401));
+        ]),  401);
     }
 }
