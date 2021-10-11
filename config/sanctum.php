@@ -30,8 +30,9 @@ return [
     |
     */
 
-    'expiration' => null,
-
+    // 'expiration' => null,
+    'expiration' => 60 * 24 * 7,
+    
     /*
     |--------------------------------------------------------------------------
     | Sanctum Middleware

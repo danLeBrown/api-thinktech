@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\DataResource;
 use App\Models\User;
 use App\Models\UserRole;
 use App\Traits\TimeagoTrait;
 use Illuminate\Http\Request;
+use App\Http\Resources\DataResource;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthenticationController extends Controller
@@ -37,6 +38,25 @@ class AuthenticationController extends Controller
         return $request->wantsJson() ? new DataResource(["token"=> $token->plainTextToken, 'message'=> "Welcome to Think Tech, ".$user->name]) : \redirect('https://thinktech.com');
     }
 
+    public function login(Request $request)
+    {
+        $request->validate([
+            "email"=> "required|email:filter",
+            "password"=> "required|string"
+        ]);
+
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            $user = User::find(Auth::user()->id);
+            $token = $user->createToken('admin-thinktech');
+            return $request->wantsJson() ? new DataResource(["token"=> $token->plainTextToken, 'message'=> "Welcome to Think Tech, ".$user->name]) : \redirect('https://thinktech.com');
+        }
+        return response(json_encode([
+            "errors"=> [
+                "email"=> ["Your credentials do not match!"]
+            ]
+        ]),  422);
+    }
     public function getUser(Request $request)
     {
         $user =  User::where('id', $request->user()->id)->with('role')->first();

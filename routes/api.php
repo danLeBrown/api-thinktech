@@ -20,8 +20,9 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->get('/user', [App\Http\Controllers\AuthenticationController::class, 'getUser']);
 
-    Auth::routes();
+    // Auth::routes();
     Route::post('/register', [App\Http\Controllers\AuthenticationController::class, 'register']);
+    Route::post('/login', [App\Http\Controllers\AuthenticationController::class, 'login']);
 
     // Article route
     Route::prefix('articles')->group(function () {
