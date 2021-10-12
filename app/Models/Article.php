@@ -24,7 +24,7 @@ class Article extends Model
     public function createArticleData($article)
     {
         $article->relative_at = $this->timeago($article->created_at);
-        $article->body = json_decode($article->body);
+        $article->body = json_decode($article->body, true);
         return $article;
     }
 }
