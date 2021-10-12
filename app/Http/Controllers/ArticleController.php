@@ -143,7 +143,7 @@ class ArticleController extends Controller
         $article = Article::create([
             "user_id"=> $request->user()->id,
             "title"=> $request->title,
-            "body"=> $request->all()
+            "body"=> json_encode($request->all())
         ]);
         return new DataResource($article);
     }
