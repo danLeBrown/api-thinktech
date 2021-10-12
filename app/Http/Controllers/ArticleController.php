@@ -137,12 +137,13 @@ class ArticleController extends Controller
     {
         $request->validate([
             "title"=> "required|string",
-            "body"=> "required|string"
+            "blocks"=> "required|array",
+            "time"=> "numeric"
         ]);
         $article = Article::create([
             "user_id"=> $request->user()->id,
             "title"=> $request->title,
-            "body"=> $request->body
+            "body"=> $request->all()
         ]);
         return new DataResource($article);
     }
