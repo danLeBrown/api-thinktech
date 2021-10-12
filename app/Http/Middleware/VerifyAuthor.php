@@ -18,7 +18,7 @@ class VerifyAuthor
      */
     public function handle(Request $request, Closure $next)
     {
-        $user =  User::find($request->user()->id)->role;
+        $user =  User::find(Auth::user()->id)->role;
         if($user->role == 'author'){
             return $next($request);
         }            

@@ -16,7 +16,7 @@ class ArticleController extends Controller
 
     public function __construct()
     {
-        $this->middleware('verify.author')->only([
+        $this->middleware(["auth:sanctum", 'verify.author'])->only([
             'store',
             'update',
             'delete'
