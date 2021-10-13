@@ -137,15 +137,16 @@ class ArticleController extends Controller
     {
         $request->validate([
             "title"=> "required|string",
-            "blocks"=> "required|array",
-            "time"=> "numeric"
         ]);
         $article = Article::create([
             "user_id"=> $request->user()->id,
             "title"=> $request->title,
             "body"=> json_encode($request->all())
         ]);
-        return new DataResource($article);
+        return new DataResource([
+            "article"=> $article,
+            "message"=> "Article has been published successfully!"
+        ]);
     }
 
     /**
