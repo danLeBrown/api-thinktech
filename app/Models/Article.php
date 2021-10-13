@@ -25,6 +25,10 @@ class Article extends Model
     {
         $article->relative_at = $this->timeago($article->created_at);
         $article->body = json_decode($article->body, true);
+        $article->meta = [
+            'title_link' => strtolower(str_replace(' ', '-', $article->title)),
+            'author_link' => strtolower(str_replace(' ', '-', $article->author->name))
+        ];
         return $article;
     }
 }
