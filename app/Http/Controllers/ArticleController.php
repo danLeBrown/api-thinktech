@@ -64,7 +64,7 @@ class ArticleController extends Controller
         return $this->createResource($trending);
     }
 
-    public function author($user_id)
+    public function byAuthor($user_id)
     {
         $articles_arr = [];
         Article::where('user_id', $user_id)->orderBy('id', 'desc')->with('author')->chunk(50, function ($articles) use (&$articles_arr){

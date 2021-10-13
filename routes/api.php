@@ -29,7 +29,7 @@ Route::prefix('v1')->group(function () {
         Route::get('trending', [App\Http\Controllers\ArticleController::class, 'trending']);
         Route::post('upload-image', [App\Http\Controllers\ArticleController::class, 'uploadImage']);
         Route::post('upload-img', [App\Http\Controllers\ArticleController::class, 'uploadImg'])->name('upload_img');
-        Route::get('author/{id}', [App\Http\Controllers\ArticleController::class, 'author']);       
+        Route::get('author/{id}', [App\Http\Controllers\ArticleController::class, 'byAuthor']);       
     });
     Route::resource('articles', ArticleController::class);
 
