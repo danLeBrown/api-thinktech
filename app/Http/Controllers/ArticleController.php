@@ -158,8 +158,8 @@ class ArticleController extends Controller
     public function show($id)
     {
         $articleTitle = str_replace('-', ' ', $id);
-        $article = Article::where(['title' => $articleTitle])->get()[0];
-        $article->createArticleData($article);        
+        $article = Article::where(['title' => $articleTitle])->first();
+        $article->createArticleData($article);
         $response = [
             'article' => $article,
         ];
