@@ -57,6 +57,9 @@ trait UserProfileTrait
             $user->bio = $request->input('bio');
         }
         $user->save();
-        return new DataResource($user);
+        return new DataResource([
+            "user"=> $user,
+            "message"=> "Profile has been updated succesfully!"
+        ]);
     }
 }
