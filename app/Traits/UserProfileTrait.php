@@ -48,7 +48,7 @@ trait UserProfileTrait
             // if($user->image != null){
             //     Storage::delete('public/author_images/' . $user->image);
             // }
-            $user->image = $upload['secure_url'];
+            $user->image_url = $upload['secure_url'];
         }
         if($request->has('name')){
             $user->name = $request->input('name');
