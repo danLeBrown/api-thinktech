@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\DataResource;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
+use Cloudinary\Api\Upload\UploadApi;
 
 trait UserProfileTrait
 {
@@ -40,11 +41,14 @@ trait UserProfileTrait
                 $newheight = 400 / $imageratio;
             };
             Image::make(storage_path('app/public/author_images/' . $fileNameToStore))->resize($newwidth, $newheight)->save(storage_path('app/public/author_images/' . $fileNameToStore));
-
-            if($user->image != null){
-                Storage::delete('public/author_images/' . $user->image);
-            }
-            $user->image = $fileNameToStore;
+            $upload = (new UploadApi())->upload(storage_path('app/public/author_images/' . $fileNameToStore), [
+            'public_id' => 'think-tech/author_images']
+            );
+        
+            // if($user->image != null){
+            //     Storage::delete('public/author_images/' . $user->image);
+            // }
+            $user->image = $upload['secure_url'];
         }
         if($request->has('name')){
             $user->name = $request->input('name');
