@@ -6,10 +6,13 @@ use App\Models\Article;
 use App\Models\UserVisit;
 use App\Models\ArticleView;
 use Illuminate\Http\Request;
+use App\Traits\UserProfileTrait;
 use App\Http\Resources\DataResource;
 
 class AuthorController extends Controller
 {
+    use UserProfileTrait;
+
     public function analyticStats(Request $request)
     {
         $views_count = 0;

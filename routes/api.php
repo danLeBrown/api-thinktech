@@ -35,6 +35,7 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware(['auth:sanctum', 'verify.author'])->prefix('author')->group(function () {
         Route::get('analytics-stats', [AuthorController::class, 'analyticStats']);
+        Route::post('update-profile', [AuthorController::class, 'updateProfile']);
     });
 
     Route::prefix('admin')->group(function () {
