@@ -11,7 +11,7 @@ class Article extends Model
     use HasFactory, TimeagoTrait;
 
     protected $primaryKey = 'id';
-    
+
     protected $fillable = [
         'user_id',
         'title',
@@ -20,7 +20,7 @@ class Article extends Model
 
     public function author()
     {
-        return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function createArticleData($article)

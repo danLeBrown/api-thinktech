@@ -68,9 +68,9 @@ class ArticleController extends Controller
     {
         $articles_arr = [];
         Article::where('user_id', $user_id)->orderBy('id', 'desc')->with('author')->chunk(50, function ($articles) use (&$articles_arr){
-            foreach ($articles as $key => $article) {
-                $article->createArticleData($article);
-            }
+            // foreach ($articles as $key => $article) {
+            //     $article->createArticleData($article);
+            // }
             $articles_arr = $articles;
         });
         return $this->createResource($articles_arr);
