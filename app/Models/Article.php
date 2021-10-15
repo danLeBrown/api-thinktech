@@ -10,6 +10,8 @@ class Article extends Model
 {
     use HasFactory, TimeagoTrait;
 
+    protected $primaryKey = 'id';
+    
     protected $fillable = [
         'user_id',
         'title',
