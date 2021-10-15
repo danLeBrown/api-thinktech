@@ -48,11 +48,11 @@ trait UserProfileTrait
                 "public_id" => "my_name"
             ]);
         
-            if($user->image_data != null){
+            // if($user->image_data != null){
                 // (new UploadApi())->destroy('think-tech/author_images/', json_decode($user->image_data, true)['public_id']);
                 // $cloudinary->uploadApi()->destroy($public_id, $options = []);
                 // Storage::delete('public/author_images/' . $user->image);
-            }
+            // }
             // $user->image_data = json_encode($upload);
             $user->image_url = $upload['secure_url'];
         }
