@@ -51,7 +51,6 @@ trait UserProfileTrait
                 Storage::delete('public/author_images/' . $user->image);
             }
             $user->image_data = json_encode($upload);
-            $user->image_url = $upload['secure_url'];
         }
         if($request->has('name')){
             $user->name = $request->input('name');
@@ -60,6 +59,7 @@ trait UserProfileTrait
             $user->bio = $request->input('bio');
         }
         $user->save();
+        $user->image_url = json_decode($user->image_data)['secure_url'];
         return new DataResource([
             "user"=> $user,
             "message"=> "Profile has been updated succesfully!"
