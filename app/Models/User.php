@@ -47,11 +47,11 @@ class User extends Authenticatable
 
     public function role()
     {
-        return $this->hasOne(UserRole::class);
+        return $this->hasOne(UserRole::class, 'user_id');
     }
 
     public function articles()
     {
-        return $this->hasMany(Article::class);
+        return $this->hasMany(Article::class, 'user_id');
     }
 }
