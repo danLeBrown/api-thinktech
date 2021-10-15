@@ -136,9 +136,21 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            "title"=> "required|string",
+        // $request->validate([
+        //     "title"=> "required|string",
+        // ]);
+        if($request->has('edit') && $request->edit === true){
+            $request->validate([
+                "id"=> "required|integer"
+            ]);
+            $article = Article::where('id', $request->id)->update([
+                "body"=> json_encode($request->all())
+            ]);
+           return new DataResource([
+            "article"=> $article,
+            "message"=> "Article has been updated successfully!"
         ]);
+        }
         $article = Article::create([
             "user_id"=> $request->user()->id,
             "title"=> $request->title,
