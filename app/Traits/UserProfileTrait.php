@@ -45,7 +45,6 @@ trait UserProfileTrait
                 // "folder" => "think-tech/author_images/",
                 // "use_filename" => true
                 "folder" => "myfolder/mysubfolder/", 
-                "public_id" => "my_name"
             ]);
         
             // if($user->image_data != null){
