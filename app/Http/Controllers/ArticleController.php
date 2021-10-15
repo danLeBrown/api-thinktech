@@ -116,7 +116,8 @@ class ArticleController extends Controller
         };
         Image::make(storage_path('app/public/articles/' . $fileNameToStore))->resize($newwidth, $newheight)->save(storage_path('app/public/articles/' . $fileNameToStore));
         $upload = (new UploadApi())->upload(storage_path('app/public/articles/' . $fileNameToStore), [
-          'public_id' => 'think-tech/articles']
+            "folder" => "think-tech/articles/", 
+        ]
         );
         return json_encode([
             "success"=> 1,
