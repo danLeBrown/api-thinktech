@@ -29,6 +29,7 @@ class Article extends Model
             'title_link' => str_replace(' ', '-', $article->title),
             'author_link' => str_replace(' ', '-', $article->author->name)
         ];
+        $article->author->image_url = json_decode($article->author->image_data, true)['secure_url'];
         return $article;
     }
 }

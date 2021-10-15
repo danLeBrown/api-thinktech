@@ -42,12 +42,18 @@ trait UserProfileTrait
             };
             Image::make(storage_path('app/public/author_images/' . $fileNameToStore))->resize($newwidth, $newheight)->save(storage_path('app/public/author_images/' . $fileNameToStore));
             $upload = (new UploadApi())->upload(storage_path('app/public/author_images/' . $fileNameToStore), [
-            'public_id' => 'think-tech/author_images']
-            );
+                // "folder" => "think-tech/author_images/",
+                // "use_filename" => true
+                "folder" => "myfolder/mysubfolder/", 
+                "public_id" => "my_name"
+            ]);
         
-            // if($user->image != null){
-            //     Storage::delete('public/author_images/' . $user->image);
-            // }
+            if($user->image_data != null){
+                // (new UploadApi())->destroy('think-tech/author_images/', json_decode($user->image_data, true)['public_id']);
+                // $cloudinary->uploadApi()->destroy($public_id, $options = []);
+                // Storage::delete('public/author_images/' . $user->image);
+            }
+            // $user->image_data = json_encode($upload);
             $user->image_url = $upload['secure_url'];
         }
         if($request->has('name')){
