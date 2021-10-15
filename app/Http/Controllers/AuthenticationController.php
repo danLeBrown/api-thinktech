@@ -60,7 +60,7 @@ class AuthenticationController extends Controller
     public function getUser(Request $request)
     {
         $user =  User::where('id', $request->user()->id)->with('role')->first();
-        $user->image_url = json_decode($user->image_data, true)['secure_url'];
+        $user->image_url =  $user->image_data !== null ? json_decode($user->image_data, true)['secure_url'] : null;
         $user->relative_at = $this->timeago($user->created_at);
         return new DataResource(['user'=> $user]);
     }
