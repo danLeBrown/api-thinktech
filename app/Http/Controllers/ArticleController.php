@@ -148,7 +148,7 @@ class ArticleController extends Controller
             $request->validate([
                 "id"=> "required|integer"
             ]);
-            $article = Article::where('id', $request->id)->update([
+            $article = Article::where(['id'=> $request->id, 'user_id'=> $request->user()->id])->update([
                 "body"=> json_encode($request->input('body'))
             ]);
             return new DataResource([
