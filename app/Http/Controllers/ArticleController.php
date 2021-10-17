@@ -151,10 +151,10 @@ class ArticleController extends Controller
             $article = Article::where('id', $request->id)->update([
                 "body"=> json_encode($request->input('body'))
             ]);
-           return new DataResource([
-            "article"=> $article,
-            "message"=> "Article has been updated successfully!"
-        ]);
+            return new DataResource([
+                "article"=> $article,
+                "message"=> "Article has been updated successfully!"
+            ]);
         }
         $article = Article::create([
             "user_id"=> $request->user()->id,
