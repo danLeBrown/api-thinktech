@@ -136,9 +136,9 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        // $request->validate([
-        //     "title"=> "required|string",
-        // ]);
+        $request->validate([
+            "title"=> "required|string",
+        ]);
         if($request->has('edit') && $request->edit === true){
             $request->validate([
                 "id"=> "required|integer"
