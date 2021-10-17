@@ -23,9 +23,10 @@ trait ResourceTrait
 
     public function returnError($err)
     {
-        return json_encode(["error"=> [
-            $err['field'] => [$err["message"]]
-        ]
-        ], $err['code']);
+        return response(json_encode([
+            "error"=> [
+                $err['field'] => [$err["message"]]
+            ]
+        ]), $err['code']);
     }
 }
