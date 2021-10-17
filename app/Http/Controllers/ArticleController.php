@@ -214,6 +214,24 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $article = Article::find($id);
+        // $blocks = json_decode($article->body, true);
+        // $blocks = $blocks['blocks'];
+        // $imgurl = [];
+        // foreach ($blocks as $key => $block) {
+        //     switch ($block['type']) {
+        //         case 'image':
+        //             array_push($imgurl, $block['data']['file']['url']);
+        //             break;
+        //         default:
+        //             break;
+        //     }
+        // }
+        // foreach ($imgurl as $key => $img) {
+        //     $file = str_replace("https://thinktech.fuoye360.com/storage/articles/", '', $img);
+        //     Storage::delete('public/articles/' . $file);
+        // }
+        $article->delete();
+        return new DataResource(["message"=> "Article deleted successfully!"]);
     }
 }
