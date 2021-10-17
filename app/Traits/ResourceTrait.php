@@ -20,4 +20,11 @@ trait ResourceTrait
     {
         return DataResource::collection($this->paginate($data));
     }
+
+    public function returnError($err)
+    {
+        return json_encode([
+            $err['field'] => [$err["message"]]
+        ], $err['code']);
+    }
 }

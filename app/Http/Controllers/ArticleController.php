@@ -138,7 +138,12 @@ class ArticleController extends Controller
     {
         $request->validate([
             "title"=> "required|string",
+            "body"=> "required"
         ]);
+        if(count($request->body["blocks"]) < 1){
+            return $this->returnError(["code"=> 422, "message"=> "Article body is empty!", "field"=> "body"]);
+        }
+
         if($request->has('edit') && $request->edit === true){
             $request->validate([
                 "id"=> "required|integer"
