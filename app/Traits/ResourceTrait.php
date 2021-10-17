@@ -24,7 +24,7 @@ trait ResourceTrait
     public function returnError($err)
     {
         return response(json_encode([
-            "error"=> [
+            "errors"=> [
                 $err['field'] => [$err["message"]]
             ]
         ]), $err['code']);
