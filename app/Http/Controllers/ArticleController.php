@@ -197,7 +197,7 @@ class ArticleController extends Controller
         if(count($request->body["blocks"]) < 1){
             return $this->returnError(["code"=> 422, "message"=> "Article body is empty!", "field"=> "body"]);
         }
-        $article = Article::where(['id'=> $request->id, 'user_id'=> $request->user()->id])->update([
+        $article = Article::where(['id'=> $id, 'user_id'=> $request->user()->id])->update([
             "body"=> json_encode($request->input('body'))
         ]);
         return new DataResource([
