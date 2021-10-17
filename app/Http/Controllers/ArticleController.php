@@ -138,7 +138,7 @@ class ArticleController extends Controller
     {
         $request->validate([
             "title"=> "required|string",
-            "body"=> "required"
+            "body"=> "required|array"
         ]);
         if(count($request->body["blocks"]) < 1){
             return $this->returnError(["code"=> 422, "message"=> "Article body is empty!", "field"=> "body"]);
@@ -149,7 +149,7 @@ class ArticleController extends Controller
                 "id"=> "required|integer"
             ]);
             $article = Article::where('id', $request->id)->update([
-                "body"=> json_encode($request->all())
+                "body"=> json_encode($request->input('body'))
             ]);
            return new DataResource([
             "article"=> $article,
@@ -159,7 +159,7 @@ class ArticleController extends Controller
         $article = Article::create([
             "user_id"=> $request->user()->id,
             "title"=> $request->title,
-            "body"=> json_encode($request->all())
+            "body"=> json_encode($request->body)
         ]);
         return new DataResource([
             "article"=> $article,
