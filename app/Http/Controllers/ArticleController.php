@@ -56,7 +56,7 @@ class ArticleController extends Controller
         }
         foreach ($trending as $key => $trend) {
             $trend->createArticleData($trend);
-            if ($trend->view_count < 5) {
+            if ($trend->view_count < 1) {
                 unset($trending[$key]);
             }
         }
