@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthorController;
 use Illuminate\Http\Request;
@@ -36,6 +37,11 @@ Route::prefix('v1')->group(function () {
     Route::middleware(['auth:sanctum', 'verify.author'])->prefix('author')->group(function () {
         Route::get('analytics-stats', [AuthorController::class, 'analyticStats']);
         Route::post('update-profile', [AuthorController::class, 'updateProfile']);
+    });
+
+    Route::prefix('analytics')->group(function () {
+        Route::post('update-views', [AnalyticsController::class, 'updateViews']);
+        Route::post('update-visits', [AnalyticsController::class, 'updateVisits']);
     });
 
     Route::prefix('admin')->group(function () {
