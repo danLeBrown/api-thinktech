@@ -76,7 +76,7 @@ class ArticleController extends Controller
                 "q"=> "required|integer"
             ]);
             $articles_arr = [];
-            Article::where('user_id', $request->user()->id)->orderBy('id', 'desc')->with('author')->chunk(50, function ($articles) use (&$articles_arr){
+            Article::where('user_id', $request->input('q'))->orderBy('id', 'desc')->with('author')->chunk(50, function ($articles) use (&$articles_arr){
                 foreach ($articles as $key => $article) {
                     $article->createArticleData($article);
                 }
