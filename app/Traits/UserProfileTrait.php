@@ -8,6 +8,7 @@ use App\Http\Resources\DataResource;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use Cloudinary\Api\Upload\UploadApi;
+use PhpParser\Node\Stmt\TryCatch;
 
 trait UserProfileTrait
 {
@@ -41,9 +42,17 @@ trait UserProfileTrait
                 $newheight = 400 / $imageratio;
             };
             Image::make(storage_path('app/public/author_images/' . $fileNameToStore))->resize($newwidth, $newheight)->save(storage_path('app/public/author_images/' . $fileNameToStore));
-            $upload = (new UploadApi())->upload(storage_path('app/public/author_images/' . $fileNameToStore), [
-                "folder" => "think-tech/author_images/", 
-            ]);
+            try {
+                $upload = (new UploadApi())->upload(storage_path('app/public/author_images/' . $fileNameToStore), [
+                    "folder" => "think-tech/author_images/", 
+                ]);
+            } catch (\TypeError $e) {
+                return $this->returnError([
+                    "field"=> "image",
+                    "code"=> 400,
+                    "message"=> $e->getMessage()
+                ]);
+            }
         
             if($user->image_data != null){
                 (new UploadApi())->destroy(json_decode($user->image_data, true)['public_id']);

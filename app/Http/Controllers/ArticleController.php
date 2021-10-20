@@ -7,6 +7,7 @@ use App\Models\ArticleView;
 use Illuminate\Http\Request;
 use App\Traits\ResourceTrait;
 use App\Http\Resources\DataResource;
+use App\Models\User;
 use Intervention\Image\Facades\Image;
 use Cloudinary\Api\Upload\UploadApi;
 
@@ -64,16 +65,42 @@ class ArticleController extends Controller
         return $this->createResource($trending);
     }
 
-    public function byAuthor($user_id)
+    public function byAuthor(Request $request)
     {
-        $articles_arr = [];
-        Article::where('user_id', $user_id)->orderBy('id', 'desc')->with('author')->chunk(50, function ($articles) use (&$articles_arr){
-            foreach ($articles as $key => $article) {
+        $filters = ['id', 'name'];
+        $request->validate([
+            "filter_by"=> "required|in:". implode(',', $filters)
+        ]);
+        if($request->input('filter_by') == 'id'){
+            $request->validate([
+                "q"=> "required|integer"
+            ]);
+            $articles_arr = [];
+            Article::where('user_id', $request->user()->id)->orderBy('id', 'desc')->with('author')->chunk(50, function ($articles) use (&$articles_arr){
+                foreach ($articles as $key => $article) {
+                    $article->createArticleData($article);
+                }
+                $articles_arr = $articles;
+            });
+            return $this->createResource($articles_arr);
+        }
+        if($request->input('filter_by') == 'name'){
+            $request->validate([
+                "q"=> "required|string"
+            ]);
+            $user = User::where('id', $request->user()->id)->with('articles');
+            $user->image_url =  $user->image_data !== null ? json_decode($user->image_data, true)['secure_url'] : null;
+            $user->relative_at = $this->timeago($user->created_at);
+            foreach ($user->articles as $key => $article) {
                 $article->createArticleData($article);
             }
-            $articles_arr = $articles;
-        });
-        return $this->createResource($articles_arr);
+            return new DataResource(["user"=> $user]);
+        }
+        return $this->returnError([
+            "field"=> "q",
+            "message"=> "Invalid query parameter",
+            "code"=> 400
+        ]);
     }
 
     public function tag($tag)

@@ -8,10 +8,11 @@ use App\Models\ArticleView;
 use Illuminate\Http\Request;
 use App\Traits\UserProfileTrait;
 use App\Http\Resources\DataResource;
+use App\Traits\ResourceTrait;
 
 class AuthorController extends Controller
 {
-    use UserProfileTrait;
+    use UserProfileTrait, ResourceTrait;
 
     public function analyticStats(Request $request)
     {
