@@ -88,7 +88,8 @@ class ArticleController extends Controller
             $request->validate([
                 "q"=> "required|string"
             ]);
-            $user = User::where('id', $request->user()->id)->with('articles');
+            $author_name = str_replace('-', ' ', $request->input('q'));
+            $user = User::where('name', $author_name)->with('articles')->first();
             $user->image_url =  $user->image_data !== null ? json_decode($user->image_data, true)['secure_url'] : null;
             $user->relative_at = $this->timeago($user->created_at);
             foreach ($user->articles as $key => $article) {
