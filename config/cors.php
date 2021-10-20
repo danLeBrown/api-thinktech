@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['https://thinktech.ng', 'https://authors.thinktech.ng', 'https://admin.thinktech.ng'],
 
     'allowed_origins_patterns' => [],
 
