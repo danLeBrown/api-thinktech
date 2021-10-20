@@ -32,6 +32,7 @@ class Article extends Model
             'author_link' => str_replace(' ', '-', $article->author->name)
         ];
         $article->author->image_url =  $article->author->image_data !== null ? json_decode($article->author->image_data, true)['secure_url'] : null;
+        $article->author->relative_at = $this->timeago($article->author->created_at);
         return $article;
     }
 }
