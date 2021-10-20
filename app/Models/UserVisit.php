@@ -9,6 +9,12 @@ class UserVisit extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'article_id',
+    ];
+
+
     public function user()
     {
         return $this->belongsTo(User::class);
