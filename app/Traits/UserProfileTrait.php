@@ -60,6 +60,7 @@ trait UserProfileTrait
         }
         $user->save();
         $user->image_url = json_decode($user->image_data, true)['secure_url'];
+        $user->relative_at = $this->timeago($user->created_at);
         return new DataResource([
             "user"=> $user,
             "message"=> "Profile has been updated succesfully!"

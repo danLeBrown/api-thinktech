@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\UserRole;
-use App\Traits\TimeagoTrait;
 use Illuminate\Http\Request;
 use App\Http\Resources\DataResource;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +11,6 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthenticationController extends Controller
 {
-    use TimeagoTrait;
 
     public function register(Request $request)
     {
