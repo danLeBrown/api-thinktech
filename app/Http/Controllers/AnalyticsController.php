@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\DataResource;
 use App\Models\UserVisit;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
+use Session;
 
 class AnalyticsController extends Controller
 {
